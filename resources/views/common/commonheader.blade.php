@@ -6,13 +6,13 @@
     <a class="navbar-brand" href="#">SCM Bulletin Board</a>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Users <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ route('user#index') }}">Users <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">User</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Posts</a>
+        <a class="nav-link" href="{{ route('posts#index') }}">Posts</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">

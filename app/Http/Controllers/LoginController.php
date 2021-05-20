@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+
 class LoginController extends Controller
 {
     /**
@@ -38,17 +39,12 @@ class LoginController extends Controller
      */
     public function checkuser(Request $request)
     {
-        Log::info($request);
         $credentials = $request->only('email', 'password');
-        Log::info($credentials);
         if (Auth::attempt($credentials)) {
-            // Log::info('Showing the user profile for user2: '.$credentials);
             $request->session()->regenerate();
 
             return redirect()->intended('dashboard');
-            // return view('register');
-            
-        }else {
+        } else {
             return view('welcome');
         }
     }

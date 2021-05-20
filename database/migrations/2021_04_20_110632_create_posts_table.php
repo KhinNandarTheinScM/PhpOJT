@@ -14,10 +14,10 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->increments('id')->unsigned(false);
-            $table->string('title', 225);
+            $table->increments('id');
+            $table->string('title')->unique();
             $table->string('description');
-            $table->integer('status')->default('1');
+            $table->integer('status');
             $table->integer('create_user_id');
             $table->foreign('create_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('updated_user_id');
@@ -26,11 +26,12 @@ class CreatePostsTable extends Migration
             $table->datetime('created_at')->useCurrent();
             $table->datetime('updated_at')->useCurrent();
             $table->datetime('deleted_at')->nullable();
+            //$table->timestamps();
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations.php 
      *
      * @return void
      */
