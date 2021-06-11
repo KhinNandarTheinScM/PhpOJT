@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Input;
 class UserController extends Controller
 {
   private $userInterface;
@@ -41,6 +41,11 @@ class UserController extends Controller
   {
     return view('user.createuser');
   }
+  public function confirm(Request $request)
+  {
+     return view('user.confirmpost');
+  
+  }
 
   /**
    * Store a newly created resource in storage.
@@ -63,4 +68,27 @@ class UserController extends Controller
       return redirect()->back()->withErrors($errors);
     }
   }
+
+  /**
+     * Search
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+      $searchname=$request->get('username');
+      $searchmail=$request->get('email');
+      $searchfrom=$request->get('create-from');
+      $searchto=$request->get('create-to');
+      if($searchname!=null|| $searchmail!=null|| $searchfrom!=null||$searchto!=null){
+           $users = $this->userInterface->search($searchname,$searchmail, $searchfrom, $searchto);
+            return view('user.index', ['users' =>   $users]);
+      }else {
+           $users = $this->userInterface->getUserList();
+            return view('user.index', ['users' =>   $users]);
+      }
+    }
+
+
 }

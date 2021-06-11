@@ -25,15 +25,6 @@
                     </div>
                     @endif
                     <div id="login-box" class="col-md-12">
-                        <!-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif -->
                         <form id="login-form" action="{{ route('user#checkuser') }}" class="form" method="POST">
                             @csrf
                             <h3 class="text-center text-info">Login</h3>
@@ -53,15 +44,6 @@
                                 <a href="#" class="text-info">forgot password?</a>
                             </div>
                         </form>
-                        <!-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif -->
                     </div>
                 </div>
             </div>

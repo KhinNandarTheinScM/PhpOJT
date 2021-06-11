@@ -59,7 +59,6 @@ class PostsController extends Controller
      */
     public function showupload(Request $request)
     {
-        Log::info('showuploadshowuploadshowuploadshowuploadshowupload');
         return view('posts.showupload');
     }
 

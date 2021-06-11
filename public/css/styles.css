@@ -292,3 +292,16 @@ input:checked + .slider:before {
 form.user {
   margin-bottom: 20px;
 }
+
+.file {
+  visibility: hidden;
+  position: absolute;
+}
+.user-create {
+  overflow-y: scroll;
+  margin-bottom: 20px;
+}
+select {
+  width: 100%;
+  min-height: 40px;
+}

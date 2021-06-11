@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Contracts\Dao\User\UserDaoInterface;
 use App\Contracts\Services\User\UserServiceInterface;
+use Illuminate\Support\Facades\Log;
 
 class UserService implements UserServiceInterface
 {
@@ -29,5 +30,9 @@ class UserService implements UserServiceInterface
   {
     return $this->userDao->getUserList();
   }
-
+  // public function search(string $inputtext1,string $inputtext2,string $inputtext3,string $inputtext4)
+  public function search(string $inputtext1 = null, string $inputtext2 = null, string $inputtext3 = null, string $inputtext4 = null)
+  {
+    return $this->userDao->search($inputtext1, $inputtext2, $inputtext3, $inputtext4);
+  }
 }

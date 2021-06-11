@@ -1,8 +1,8 @@
 @extends('common.layout')
 @section('content')
-<div>
-  <h2>Create User</h2>
-  <form action="" class="form" method="POST">
+<div class="user-create">
+  <h2>Create User KKKKKKKKKKKKK</h2>
+  <form action="{{ route('users#confirm') }}" class="form" method="POST">
     @csrf
     <div class="form-group row">
       <label for="name" class="col-sm-2 col-form-label">Name</label>
@@ -13,8 +13,7 @@
     <div class="form-group row">
       <label for="email" class="col-sm-2 col-form-label">Email Address</label>
       <div class="col-sm-10">
-      <input type="text" name="email" class="text-input form-control" id="email" placeholder="Email Address">
-          <!-- <textarea name="email" class="form-control" id="description" placeholder="Email Address"></textarea> -->
+        <input type="text" name="email" class="text-input form-control" id="email" placeholder="Email Address">
       </div>
     </div>
     <div class="form-group row">
@@ -32,7 +31,10 @@
     <div class="form-group row">
       <label for="type" class="col-sm-2 col-form-label">Type</label>
       <div class="col-sm-10">
-        <input type="type" name="confirmpassword" class="text-input form-control" id="type" placeholder="ConfirmPassword">
+        <select class="form-select" aria-label="Default select example">
+          <option selected>Admin</option>
+          <option value="1">User</option>
+        </select>
       </div>
     </div>
     <div class="form-group row">
@@ -44,26 +46,43 @@
     <div class="form-group row">
       <label for="dob" class="col-sm-2 col-form-label">Date Of Birth</label>
       <div class="col-sm-10">
-        <input type="text" name="dob" class="text-input form-control" id="dob" placeholder="Date Of Birth">
+        <input type="date" class="form-control" id="datepicker1">
       </div>
     </div>
     <div class="form-group row">
       <label for="address" class="col-sm-2 col-form-label">Address</label>
       <div class="col-sm-10">
-          <textarea name="address" class="form-control" id="address" placeholder="Address"></textarea>
+        <textarea name="address" class="form-control" id="address" placeholder="Address"></textarea>
       </div>
     </div>
-    <div class="form-group row">
-      <label for="profile" class="col-sm-2 col-form-label">Profile</label>
-      <div class="col-sm-10">
-        <input type="text" name="profile" class="text-input form-control" id="profile" placeholder="Profile">
-      </div>
+    <div class="ml-2 col-sm-6">
+      <img src="https://placehold.it/80x80" id="preview" class="img-thumbnail">
     </div>
-
-    <div class="form-group">
-      <input type="submit" name="submit" class="btn btn-info btn-md" value="Confirm">
-      <button type="button" class="btn btn-primary" onclick="clearFields()">Clear</button>
-    </div>
-  </form>
 </div>
+</div>
+
+<div class="form-group">
+  <input type="submit" name="submit" class="btn btn-info btn-md" value="Confirm">
+  <button type="button" class="btn btn-primary" onclick="clearFields()">Clear</button>
+</div>
+</form>
+</div>
+<script>
+  $(document).on("click", ".browse", function() {
+    var file = $(this).parents().find(".file");
+    file.trigger("click");
+  });
+  $('input[type="file"]').change(function(e) {
+    var fileName = e.target.files[0].name;
+    $("#file").val(fileName);
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      // get loaded data and render thumbnail.
+      document.getElementById("preview").src = e.target.result;
+    };
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+  });
+</script>
 @endsection
