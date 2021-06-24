@@ -5,7 +5,8 @@ namespace App\Services\User;
 use App\Contracts\Dao\User\UserDaoInterface;
 use App\Contracts\Services\User\UserServiceInterface;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Http\Request;
+use App\Models\User;
 class UserService implements UserServiceInterface
 {
   private $userDao;
@@ -35,4 +36,14 @@ class UserService implements UserServiceInterface
   {
     return $this->userDao->search($inputtext1, $inputtext2, $inputtext3, $inputtext4);
   }
+  public function setUsersList(Request $request) {
+    return $this->userDao->setUsersList($request);
+ }
+ public function updateUserProfile(Request $request, User $user){
+  return $this->userDao->updateUserProfile($request,$user);
+}
+public function deleteUserList(User $user) {
+  return $this->userDao->deleteUserList($user);
+}
+
 }

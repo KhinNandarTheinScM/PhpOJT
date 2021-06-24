@@ -14,17 +14,17 @@ class Post extends Model
         'status',
         'created_user_id', 
         'updated_user_id',
-        'deleted_user_id',
-        'created_at',
-        'updated-at'
+        // 'deleted_user_id',
+        // 'created_at',
+        // 'updated-at'
     ];
 
-    protected $date = [
-        'deleted_at'
-    ];
+    // protected $date = [
+    //     'deleted_at'
+    // ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at'
-    ];
+    // protected $hidden = [
+    //     'created_at',
+    //     'updated_at'
+    // ];
 }

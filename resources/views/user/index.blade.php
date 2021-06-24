@@ -38,7 +38,31 @@
                 <td>{{$user->phone}}</td>
                 <td>{{$user->dob}}</td>
                 <td>{{$user->created_at}}</td>
-                <td> <button type="submit" class="btn btn-danger">Delete</button></td>
+                <td> 
+                <!-- <button type="submit" class="btn btn-danger">Delete</button> -->
+                <a href="#modal" data-toggle="modal" class="btn btn-danger">Delete</a>
+                <div id="modal" class="modal fade">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Confirmation</h5>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p>Do you want to delete this?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <form action="{{route('user#delete',$user->id)}}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+                </td>
             </tr>
             @endforeach
         </tbody>

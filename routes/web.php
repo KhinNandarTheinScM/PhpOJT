@@ -17,9 +17,15 @@ Route::get('/', function () {
 });
 
 Route::get('users/','UserController@index')->name('user#index');
+Route::get('user/showprofile','UserController@showprofile')->name('user#showprofile');
+Route::delete('posts/{user}/delete/','UserController@delete')->name('user#delete');
+Route::get('user/showprofile/{user}/edit/','UserController@edit')->name('user#editprofile');
+Route::post('users/profile/','UserController@profileconfirm')->name('users#profileconfirm');
+Route::post('users/profile/confirm/','UserController@confirmprofileupdate')->name('users#confirmprofileupdate');
 Route::post('users/checkuser','UserController@checkuser')->name('user#checkuser');
 Route::get('users/create/','UserController@create')->name('user#create');
-Route::post('users/confirm/','PostsController@confirm')->name('users#confirm');
+Route::post('users/store','UserController@store')->name('users#store');
+Route::post('users/confirm/','UserController@confirm')->name('users#confirm');
 Route::get('posts/index/','PostsController@index')->name('posts#index');
 Route::get('posts/create/','PostsController@create')->name('posts#create');
 Route::get('posts/{post}/edit/','PostsController@edit')->name('posts#edit');

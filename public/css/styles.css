@@ -305,3 +305,14 @@ select {
   width: 100%;
   min-height: 40px;
 }
+.modal-lists {
+  list-style: none;
+  font-size: 16px;
+  line-height: 1.5em;
+}
+.modal-lists li {
+  padding: 10px 0;
+}
+.profile_img img {
+  width: 200px;
+}

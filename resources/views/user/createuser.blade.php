@@ -1,88 +1,104 @@
 @extends('common.layout')
 @section('content')
 <div class="user-create">
-  <h2>Create User KKKKKKKKKKKKK</h2>
-  <form action="{{ route('users#confirm') }}" class="form" method="POST">
-    @csrf
-    <div class="form-group row">
-      <label for="name" class="col-sm-2 col-form-label">Name</label>
-      <div class="col-sm-10">
-        <input type="text" name="name" class="text-input form-control" id="title" placeholder="Name">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="email" class="col-sm-2 col-form-label">Email Address</label>
-      <div class="col-sm-10">
-        <input type="text" name="email" class="text-input form-control" id="email" placeholder="Email Address">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="password" class="col-sm-2 col-form-label">Password</label>
-      <div class="col-sm-10">
-        <input type="password" name="password" class="text-input form-control" id="password" placeholder="Password">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="confirmpassword" class="col-sm-2 col-form-label">ConfirmPassword</label>
-      <div class="col-sm-10">
-        <input type="password" name="confirmpassword" class="text-input form-control" id="confirmpassword" placeholder="ConfirmPassword">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="type" class="col-sm-2 col-form-label">Type</label>
-      <div class="col-sm-10">
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Admin</option>
-          <option value="1">User</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="phone" class="col-sm-2 col-form-label">Phone</label>
-      <div class="col-sm-10">
-        <input type="test" name="phone" class="text-input form-control" id="phone" placeholder="Phone">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="dob" class="col-sm-2 col-form-label">Date Of Birth</label>
-      <div class="col-sm-10">
-        <input type="date" class="form-control" id="datepicker1">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="address" class="col-sm-2 col-form-label">Address</label>
-      <div class="col-sm-10">
-        <textarea name="address" class="form-control" id="address" placeholder="Address"></textarea>
-      </div>
-    </div>
-    <div class="ml-2 col-sm-6">
-      <img src="https://placehold.it/80x80" id="preview" class="img-thumbnail">
-    </div>
-</div>
-</div>
+  <script type="text/javascript">
+    function clearFields() {
 
-<div class="form-group">
-  <input type="submit" name="submit" class="btn btn-info btn-md" value="Confirm">
-  <button type="button" class="btn btn-primary" onclick="clearFields()">Clear</button>
-</div>
-</form>
+      document.getElementById("name").value = ""
+      document.getElementById("email").value = ""
+      document.getElementById("password").value = ""
+      document.getElementById("confirmpassword").value = ""
+      document.getElementById("usertype").value = ""
+      document.getElementById("phone").value = ""
+      document.getElementById("datepicker1").value = ""
+      document.getElementById("address").value = ""
+      document.getElementById("imgInp").value = ""
+      document.getElementById("blah").src = ""
+    }
+  </script>
+  <h2>Create User</h2>
+  <form action="{{ route('users#confirm') }}" class="form" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div>
+      <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} row">
+        <label for="name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+          <input type="text" name="name" class="text-input form-control" id="name" placeholder="Name" value="{{$name}}">
+          <small class="text-danger">{{ $errors->first('name') }}</small>
+        </div>
+      </div>
+      <div class="form-group row {{ $errors->has('email') ? ' has-error' : '' }}">
+        <label for="email" class="col-sm-2 col-form-label">Email Address</label>
+        <div class="col-sm-10">
+          <input type="text" name="email" class="text-input form-control" id="email" placeholder="Email Address" value="{{$email}}">
+          <small class="text-danger">{{ $errors->first('email') }}</small>
+        </div>
+        <!-- <small class="text-danger">{{ $errors->first('email') }}</small> -->
+      </div>
+      <div class="form-group row {{ $errors->has('password') ? ' has-error' : '' }}">
+        <label for="password" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+          <input type="password" name="password" class="text-input form-control" id="password" placeholder="Password" value="{{$password}}">
+          <small class="text-danger">{{ $errors->first('password') }}</small>
+        </div>
+        <!-- <small class="text-danger">{{ $errors->first('password') }}</small> -->
+      </div>
+      <div class="form-group row {{ $errors->has('confirmpassword') ? ' has-error' : '' }}">
+        <label for="confirmpassword" class="col-sm-2 col-form-label">ConfirmPassword</label>
+        <div class="col-sm-10">
+          <input type="password" name="confirmpassword" class="text-input form-control" id="confirmpassword" placeholder="ConfirmPassword" value="{{$confirmpassword}}">
+          <small class="text-danger">{{ $errors->first('confirmpassword') }}</small>
+        </div>
+        <!-- <small class="text-danger">{{ $errors->first('confirmpassword') }}</small> -->
+      </div>
+      <div class="form-group row">
+        <label for="type" class="col-sm-2 col-form-label">Type</label>
+        <div class="col-sm-10">
+          <select name="usertype" id="usertype" class="form-control">
+            <option value="Admin" {{ (isset($usertype)&& $usertype=='Admin')?'selected':''}}>Admin</option>
+            <option value="User" {{ (isset($usertype)&& $usertype=='User')?'selected':''}}>User</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+        <div class="col-sm-10">
+          <input type="phone" name="phone" class="text-input form-control" id="phone" placeholder="Phone" value="{{$phone}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="dob" class="col-sm-2 col-form-label">Date Of Birth</label>
+        <div class="col-sm-10">
+          <input type="date" name='date' class="form-control" id="datepicker1" value="{{$date}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="address" class="col-sm-2 col-form-label">Address</label>
+        <div class="col-sm-10">
+          <textarea name="address" class="form-control" id="address" placeholder="Address">{{$address}}</textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="address" class="col-sm-2 col-form-label">Profile</label>
+        <div class="col-sm-10 profile_img">
+          <!-- <input type="file" name="image" class="form-control"> -->
+          <input type="file" name="image" accept="image/*" id="imgInp" /><br><br>
+          <img name="showimg" id="blah" src="{{ URL::to('/images/' . $path) }}" alt="your image" />
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="submit" name="submituser" class="btn btn-info btn-md" value="Confirm">
+        <button type="button" class="btn btn-primary" onclick="clearFields()">Clear</button>
+      </div>
+      <div>
+  </form>
 </div>
 <script>
-  $(document).on("click", ".browse", function() {
-    var file = $(this).parents().find(".file");
-    file.trigger("click");
-  });
-  $('input[type="file"]').change(function(e) {
-    var fileName = e.target.files[0].name;
-    $("#file").val(fileName);
-
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      // get loaded data and render thumbnail.
-      document.getElementById("preview").src = e.target.result;
-    };
-    // read the image file as a data URL.
-    reader.readAsDataURL(this.files[0]);
-  });
+  imgInp.onchange = evt => {
+    const [file] = imgInp.files
+    if (file) {
+      blah.src = URL.createObjectURL(file)
+    }
+  }
 </script>
 @endsection

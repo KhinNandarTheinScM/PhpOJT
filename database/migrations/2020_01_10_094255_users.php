@@ -16,7 +16,7 @@ class Users extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id')->unsigned(false);
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->text('password',255);
             $table->string('profile',255)->default('default.jpg');
             $table->string('type',1)->default('1');

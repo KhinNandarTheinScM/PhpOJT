@@ -2,7 +2,8 @@
 
 namespace App\Dao\Posts;
 
-use DB;
+// use DB;
+use Illuminate\Support\Facades\DB;
 use App\Contracts\Dao\Posts\PostsDaoInterface;
 use App\Models\Post;
 use Illuminate\Support\Facades\Log;
@@ -16,8 +17,9 @@ class PostsDao implements PostsDaoInterface
   public function getPostsList()
   {
     $posts = DB::table('posts')
-      ->join('users', 'users.id', '=', 'posts.create_user_id')
-      ->select('posts.*', 'users.name')
+      ->join('users as u1', 'u1.id', '=', 'posts.create_user_id')
+      ->join('users as u2', 'u2.id', '=', 'posts.updated_user_id')
+      ->select('posts.*', 'u1.name as create_username', 'u2.name as updated_username')
       ->where('posts.status', '=', '1')
       ->latest()
       ->paginate(5);
@@ -27,8 +29,6 @@ class PostsDao implements PostsDaoInterface
   public function uploadData(Request $request, int $userId)
   {
     $path = 'uploads/' . $userId . '/csv';
-    //if ($request->file()) {
-    // $userId
     $name = time() . '_' . $request->file->getClientOriginalName();
     $request->file('file')->storeAs($path, $name, 'public');
     $file = $request->file('file');
@@ -39,9 +39,9 @@ class PostsDao implements PostsDaoInterface
       $row = explode(";", $rowData);
       $status = (int)$row[2];
       $existing_title = DB::table('posts')->where('title', $row[0])->first();
-      if (!$existing_title) {
-        Post::create(['title' => $row[0], 'description' => $row[1], 'status' => $status, 'create_user_id' => $userId, 'updated_user_id' => $userId]);
-      }
+      // if (!$existing_title) {
+      Post::create(['title' => $row[0], 'description' => $row[1], 'status' => $status, 'create_user_id' => $userId, 'updated_user_id' => $userId]);
+      // }
     }
     fclose($file);
   }
@@ -82,16 +82,5 @@ class PostsDao implements PostsDaoInterface
       ->where('posts.id', '=', $posts->id)
       ->update(['status' => '0', 'deleted_user_id' => $id]);
     return $posts;
-    // ->where('id', $posts->id)
-    // ->delete();
   }
 }
-
-// public function deletePostsList(Post $posts)
-// {
-//   $id = Auth::user()->id;
-//   $posts = DB::table('posts')
-//     ->where('id', $posts->id)
-//     ->delete();
-// }
-// }

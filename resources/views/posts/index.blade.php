@@ -34,14 +34,40 @@
       <tr>
         <input type="hidden" class="del-val-id" value="{{$post1->id}}">
         <td>{{$post1->id}}</td>
-        <td>{{$post1->title}}</td>
+        <td>
+          <!-- {{$post1->title}} -->
+          <a href="#modal" data-toggle="modal">{{$post1->title}}</a>
+          <div id="modal" class="modal fade">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Show Post Detail</h5>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <ul class="modal-lists">
+                    <li>{{$post1->title}}</li>
+                    <li>{{$post1->description}}</li>
+                    <li>{{$post1->status}}</li>
+                    <li>{{$post1->created_at}}</li>
+                    <li>{{$post1->create_username}}</li>
+                    <li>{{$post1->updated_at}}</li>
+                    <li>{{$post1->updated_username}}</li>
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
         <td>{{$post1->description}}</td>
-        <td>{{$post1->name}}</td>
         <td>{{$post1->created_at}}</td>
         <td>
           <form class="action-form" action="{{ route('posts#edit',$post1->id) }}" method="POST">
             <a class="btn btn-primary" href="{{ route('posts#edit',$post1->id) }}">Edit</a>
-            <a href="#modal" data-toggle="modal"  class="btn btn-danger">Delete</a>
+            <a href="#modal" data-toggle="modal" class="btn btn-danger">Delete</a>
             @csrf
           </form>
           <div id="modal" class="modal fade">
@@ -79,11 +105,9 @@
   @endif
 </div>
 <script>
-   function exportTasks(_this) {
-     console.log(_this);
-      let _url = $(_this).data('href');
-      console.log(_url);
-      window.location.href = _url;
-   }
+  function exportTasks(_this) {
+    let _url = $(_this).data('href');
+    window.location.href = _url;
+  }
 </script>
 @endsection
