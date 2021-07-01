@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Input;
 use App\Image;
 use phpDocumentor\Reflection\Types\Null_;
 use URL;
+use Crypt;
+use Hash;
 use Session;
 
 class UserController extends Controller
@@ -24,6 +26,7 @@ class UserController extends Controller
    */
   public function __construct(UserServiceInterface $userInterface)
   {
+    // $this->middleware('visitors');
     $this->userInterface = $userInterface;
   }
   /**
@@ -35,6 +38,19 @@ class UserController extends Controller
   {
     $users = $this->userInterface->getUserList();
     return view('user.index', ['users' => $users]);
+  }
+  public function logout()
+  {
+    Auth::logout();
+    return redirect()->intended('/login');
+    // return redirect()->route('user#login');
+    // return view('user.login');
+  }
+
+  public function login()
+  {
+
+    return view('user.login');
   }
 
   /**
@@ -112,6 +128,13 @@ class UserController extends Controller
    */
   public function confirmprofileupdate(Request $request, User $user)
   {
+    $request->session()->forget('name');
+    $request->session()->forget('email');
+    $request->session()->forget('type');
+    $request->session()->forget('phone');
+    $request->session()->forget('date');
+    $request->session()->forget('address');
+    $request->session()->forget('path');
     $user = $this->userInterface->updateUserProfile($request, $user);
     return redirect()->route('user#index');
   }
@@ -132,7 +155,7 @@ class UserController extends Controller
     $credentials = $request->only('email', 'password');
     if (Auth::attempt($credentials)) {
       $request->session()->regenerate();
-      return redirect()->intended('posts/index');
+      return redirect()->intended('posts/index/');
     } else {
       $errors = [' password is incorrect'];
       return redirect()->back()->withErrors($errors);
@@ -147,6 +170,15 @@ class UserController extends Controller
    */
   public function store(Request $request)
   {
+    $request->session()->forget('name');
+    $request->session()->forget('email');
+    $request->session()->forget('type');
+    $request->session()->forget('phone');
+    $request->session()->forget('date');
+    $request->session()->forget('address');
+    $request->session()->forget('path');
+    $request->session()->forget('password');
+    $request->session()->forget('confirmpassword');
     $posts = $this->userInterface->setUsersList($request);
     return redirect()->intended('users');
   }
@@ -181,12 +213,30 @@ class UserController extends Controller
   public function edit(User $user)
   {
     return view('user.updateprofile', ['user' =>  $user]);
-    // return view('userprofile.updateprofile',$user);
   }
+  public function changepassword(User $user)
+  {
+    return view('user.changepassword', ['user' =>  $user]);
+  }
+  public function changepasswordupdate(Request $request, User $user)
+  {
+    $newvalue = Hash::make($request->newpassword);
+    $request->validate([
+      'password' => 'different:$newvalue',
+      'newpassword'         => 'required|min:10|regex:/[A-Z]/ |regex:/[0-9]/',
+      'confirmpassword' => 'required|same:newpassword'
+    ]);
+    $request->session()->put('password', $request->newpassword);
+    $request->session()->put('confirmpassword', $request->newpassword);
+    $user = $this->userInterface->changePasswordUpdate($request, $user);
+    $users = $this->userInterface->getUserList();
+    return view('user.index', ['users' => $users]);
+  }
+
   public function delete(User $user)
   {
-    $user = $this->postsInterface->deleteUserList($user);
-    $returnposts = $this->userInterface->getPostsList();
-    return view('posts.index', ['posts' =>  $returnposts]);
+    $users = $this->userInterface->deleteUserList($user);
+    $returnusers = $this->userInterface->getUserList();
+    return view('user.index', ['users' =>  $returnusers]);
   }
 }

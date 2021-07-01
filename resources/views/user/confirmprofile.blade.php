@@ -53,7 +53,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" name="submituser" class="btn btn-info btn-md" value="Update">
-                <button type="button" class="btn btn-primary" onclick="window.location='{{ url("users/create") }}'">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="window.location='{{ url(" user/showprofile/{user}/edit") }}'">Cancel</button>
                 <!-- <button type="button" class="btn btn-primary" onclick="clearFields()">Clear</button> -->
             </div>
             <div>

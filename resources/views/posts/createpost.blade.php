@@ -16,6 +16,7 @@
         <input type="text" name="title" class="text-input form-control" id="title" placeholder="Title" value="{{$title}}">
       </div>
     </div>
+    <!-- Div Close -->
     <div class="form-group row">
       <label for="description" class="col-sm-2 col-form-label">Description</label>
       <div class="col-sm-10">

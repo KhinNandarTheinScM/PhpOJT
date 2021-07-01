@@ -16,8 +16,9 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <button class="button-username btn btn-outline-success my-2 my-sm-0" type="submit">LoginUserName</button>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+    <p class="userName">{{Auth::user()->name}}</p>
+      <!-- <button class="button-username btn btn-outline-success my-2 my-sm-0" type="submit">LoginUserName</button> -->
+      <button class="btn btn-outline-success my-2 my-sm-0" onclick="window.location='{{ url("posts/logout") }}'"  type="button">Logout</button>
     </form>
   </div>
 </nav>

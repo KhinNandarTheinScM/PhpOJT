@@ -27,6 +27,7 @@ class PostsController extends Controller
      */
     public function __construct(PostsServiceInterface $postsInterface)
     {
+        // $this->middleware('visitors');
         $this->postsInterface = $postsInterface;
     }
     /**
@@ -39,7 +40,6 @@ class PostsController extends Controller
         $posts = $this->postsInterface->getPostsList();
         return view('posts.index', ['posts' =>  $posts]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -47,6 +47,8 @@ class PostsController extends Controller
      */
     public function create(Request $request)
     {
+        // Session::forget('title');
+        // Session::forget('description');
         $title = Session::get('title');
         $description =  Session::get('description');
         return view('posts.createpost', ['description' => $description, 'title' => $title]);
@@ -113,6 +115,8 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        Session::forget('title');
+        Session::forget('description');
         $posts = $this->postsInterface->setPostsList($request);
         return redirect()->intended('posts/index');
     }
@@ -178,11 +182,18 @@ class PostsController extends Controller
      */
     public function confirmupdate(Request $request, Post $posts)
     {
+        Session::forget('title');
+        Session::forget('description');
         $request->validate([
             'title' => 'required',
             'description' => 'required',
         ]);
         $posts = $this->postsInterface->updatePostsList($request, $posts);
+        Session::forget('title');
+        Session::forget('description');
+        $title = Session::get('title');
+        $description =  Session::get('description');
+        // Session::flush();
         return redirect()->route('posts#index');
     }
 
@@ -234,7 +245,7 @@ class PostsController extends Controller
         $posts = $this->postsInterface->getPostsList();
         return view('posts.index', ['posts' =>  $posts]);
     }
-    public function delete(Post $post)
+    public function delete(Post $post,Request $request)
     {
         $posts = $this->postsInterface->deletePostsList($post);
         $returnposts = $this->postsInterface->getPostsList();

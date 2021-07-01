@@ -315,4 +315,14 @@ select {
 }
 .profile_img img {
   width: 200px;
+  /* height: 200px; */
+  margin: 10px 0;
+}
+.userName {
+  margin-right: 10px;
+  padding-top: 10px;
+  margin-right:10px;
+}
+.change-password {
+  margin: 10px 0;
 }

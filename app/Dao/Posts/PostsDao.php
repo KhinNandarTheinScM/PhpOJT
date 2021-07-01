@@ -16,6 +16,7 @@ class PostsDao implements PostsDaoInterface
   //user list action
   public function getPostsList()
   {
+    $user = Auth::user();
     $posts = DB::table('posts')
       ->join('users as u1', 'u1.id', '=', 'posts.create_user_id')
       ->join('users as u2', 'u2.id', '=', 'posts.updated_user_id')
@@ -23,6 +24,9 @@ class PostsDao implements PostsDaoInterface
       ->where('posts.status', '=', '1')
       ->latest()
       ->paginate(5);
+    if (!Auth::user()->type == '0') {
+      $posts = $posts->where('id', Auth::user()->id);
+    };
     return $posts;
   }
 
@@ -48,12 +52,21 @@ class PostsDao implements PostsDaoInterface
 
   public function search(string $inputtext)
   {
+    $user = Auth::user();
     $posts = DB::table('posts')
-      ->join('users', 'users.id', '=', 'posts.create_user_id')
-      ->orWhere('title', 'LIKE', '%' . $inputtext . '%')
-      ->orWhere('description', 'LIKE', '%' . $inputtext . '%')
+      ->join('users as u1', 'u1.id', '=', 'posts.create_user_id')
+      ->join('users as u2', 'u2.id', '=', 'posts.updated_user_id')
+      ->select('posts.*', 'u1.name as create_username', 'u2.name as updated_username')
+      ->where('posts.status', '=', '1')
+      ->where(function ($query) use ($inputtext) {
+        $query->where('posts.title', 'LIKE', '%' . $inputtext . '%')
+          ->orWhere('posts.description', 'LIKE', '%' . $inputtext . '%');
+      })
       ->paginate(5);
     $posts->appends(['search' => $inputtext]);
+    if (!Auth::user()->type == '0') {
+      $posts = $posts->where('id', Auth::user()->id);
+    };
     // ->get();
     return $posts;
   }

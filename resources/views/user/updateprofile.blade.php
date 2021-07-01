@@ -1,7 +1,7 @@
 @extends('common.layout')
 @section('content')
 <div class="user-create">
-  <h2>Update User</h2>
+  <h2>Update User KNDT</h2>
   <form action="{{ route('users#profileconfirm') }}" class="form" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="profile_img">
@@ -51,11 +51,14 @@
       </div>
       <div class="form-group row">
         <label for="address" class="col-sm-2 col-form-label">Address</label>
-        <div class="col-sm-10">
+        <div class="col-sm-10 profile_img">
           <!-- <input type="file" name="image" class="form-control"> -->
           <input type="file" name="image" accept="image/*" id="imgInp" /><br>
           <img name="showimg" id="blah" src="#" alt="your image" />
         </div>
+      </div>
+      <div class="change-password">
+        <a href="{{ route('user#changepassword',$user->id) }}">Change password</a>
       </div>
       <div class="form-group">
         <input type="submit" name="submituser" class="btn btn-info btn-md" value="Confirm">
