@@ -5,13 +5,13 @@
   <form class="form-inline user" action="/usersearch">
     @csrf
     <div class="form-group">
-      <input type="search" class="form-control" name="username" id="name" placeholder="
+      <input type="search" class="form-control" name="username" value="{{ app('request')->input('username') }}" id="name" placeholder="
   Name">
-      <input type="search" class="form-control" name="email" id="email" placeholder="
+      <input type="search" class="form-control" name="email" value="{{ app('request')->input('email') }}" id="email" placeholder="
   Email">
-      <input type="date" class="form-control" name="create-from" id="create-from" placeholder="
+      <input type="date" class="form-control" name="create-from" value="{{ app('request')->input('create-from') }}" id="create-from" placeholder="
   Create From">
-      <input type="date" class="form-control" name="create-to" id="create-to" placeholder="
+      <input type="date" class="form-control" name="create-to" value="{{ app('request')->input('create-to') }}" id="create-to" placeholder="
   Create To">
       <button type="submit">Search</button>
       <a class="action-link" href="{{ route('user#create') }}">Add</a>

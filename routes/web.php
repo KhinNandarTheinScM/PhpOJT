@@ -17,10 +17,12 @@ use App\Http\Middleware\VisitorsMiddleware;
 // Route::get('/', function () {
 //     return view('user/login');
 // });
+Route::get('/', 'UserController@login')->name('user#login');
 Route::get('login/', 'UserController@login')->name('user#login');
 
 Route::group(['middleware' => ['visitors']], function () {
     Route::get('users/', 'UserController@index')->name('user#index');
+    Route::get('/', 'PostsController@index')->name('posts#index');
     Route::get('user/showprofile', 'UserController@showprofile')->name('user#showprofile');
     Route::delete('user/{user}/delete/', 'UserController@delete')->name('user#delete');
     Route::get('user/showprofile/{user}/edit/', 'UserController@edit')->name('user#editprofile');
@@ -39,6 +41,8 @@ Route::group(['middleware' => ['visitors']], function () {
     Route::delete('posts/{post}/delete/','PostsController@delete')->name('posts#delete');
     // Route::post('posts/{post}/delete/', 'PostsController@delete')->name('posts#delete');
     Route::get('/tasks', 'PostsController@exportCsv')->name('posts#tasks');
+    Route::get('/exportExcel', 'PostsController@exportExcel')->name('posts#export');
+    // Route::get('exportExcel/{type}', [ExcelController::class, 'exportExcel'])->name('exportExcel');
 
     Route::post('posts/confirmupdate/', 'PostsController@confirmupdate')->name('posts#confirmupdate');
     Route::post('posts/{post}/update/', 'PostsController@update')->name('posts#update');

@@ -1,17 +1,31 @@
 @extends('common.layout')
 @section('content')
 <div class="user-create">
-  <h2>Update User KNDT</h2>
+<script type="text/javascript">
+    function clearFields() {
+      document.getElementById("name").value = ""
+      document.getElementById("email").value = ""
+      document.getElementById("usertype").value = ""
+      document.getElementById("phone").value = ""
+      document.getElementById("datepicker1").value = ""
+      document.getElementById("address").value = ""
+      document.getElementById("blah").src = ""
+      document.getElementById("profileimg").src = ""
+      
+    }
+  </script>
+  <h2>Update User</h2>
   <form action="{{ route('users#profileconfirm') }}" class="form" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="profile_img">
-      <img name="img" src="{{$user->profile}}" />
+      <img name="img" id="profileimg" src="{{$user->profile}}" />
+      <input type="hidden" name="id" class="text-input form-control" placeholder="id" value="{{$user->id}}">
       <div>
       </div>
       <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} row">
         <label for="name" class="col-sm-2 col-form-label">Name</label>
         <div class="col-sm-10">
-          <input type="text" name="name" class="text-input form-control" id="title" placeholder="Name" value="{{$user->name}}">
+          <input type="text" name="name" class="text-input form-control" id="name" placeholder="Name" value="{{$user->name}}">
           <small class="text-danger">{{ $errors->first('name') }}</small>
         </div>
       </div>
@@ -49,11 +63,12 @@
           <textarea name="address" class="form-control" id="address" placeholder="Address">{{$user->address}}</textarea>
         </div>
       </div>
-      <div class="form-group row">
-        <label for="address" class="col-sm-2 col-form-label">Address</label>
+      <div class="form-group {{ $errors->has('image') ? ' has-error' : '' }} row">
+        <label for="address" class="col-sm-2 col-form-label">Profile</label>
         <div class="col-sm-10 profile_img">
           <!-- <input type="file" name="image" class="form-control"> -->
           <input type="file" name="image" accept="image/*" id="imgInp" /><br>
+          <small class="text-danger">{{ $errors->first('image') }}</small>
           <img name="showimg" id="blah" src="#" alt="your image" />
         </div>
       </div>

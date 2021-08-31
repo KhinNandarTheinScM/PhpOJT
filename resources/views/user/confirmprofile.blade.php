@@ -1,14 +1,14 @@
 @extends('posts.layout')
 @section('content')
 <div>
-    <h2>Update User Confirmation</h2>
+    <h2>Update User ConfirmationKKKKKKKKKKKK</h2>
     <form action="{{ route('users#confirmprofileupdate') }}" class="form" method="POST">
         @csrf
         <div>
             <div class="form-group row">
                 <label for="fileimg" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10 profile_img">
-                <img name="img" src="{{$confirmuserprofile->path}}" />
+                    <img name="img" src="{{$confirmuserprofile->path}}" />
                     <!-- <img name="img" src="{{ URL::to('/images/' . $confirmuserprofile->path) }}" /> -->
                     <input type="hidden" name="image" class="text-input form-control" placeholder="Title" value="{{$confirmuserprofile->path}}">
                 </div>
@@ -53,8 +53,8 @@
             </div>
             <div class="form-group">
                 <input type="submit" name="submituser" class="btn btn-info btn-md" value="Update">
-                <button type="button" class="btn btn-primary" onclick="window.location='{{ url(" user/showprofile/{user}/edit") }}'">Cancel</button>
-                <!-- <button type="button" class="btn btn-primary" onclick="clearFields()">Clear</button> -->
+
+                <button type="button" class="btn btn-primary" onclick="window.location='{{ url("user/showprofile/{$confirmuserprofile->id}/edit/") }}'">Cancel</button>
             </div>
             <div>
     </form>

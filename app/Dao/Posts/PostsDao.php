@@ -41,11 +41,14 @@ class PostsDao implements PostsDaoInterface
     while (($line = fgetcsv($file)) !== FALSE) {
       $rowData = implode(" ", $line);
       $row = explode(";", $rowData);
-      $status = (int)$row[2];
+      // $status = (int)$row[2];
       $existing_title = DB::table('posts')->where('title', $row[0])->first();
-      // if (!$existing_title) {
-      Post::create(['title' => $row[0], 'description' => $row[1], 'status' => $status, 'create_user_id' => $userId, 'updated_user_id' => $userId]);
-      // }
+      if (!$existing_title) {
+        if (($row[0] == NULL) || ($row[1] == NULL)) {
+        } else {
+          Post::create(['title' => $row[0], 'description' => $row[1], 'status' => $userId, 'create_user_id' => $userId, 'updated_user_id' => $userId]);
+        }
+      }
     }
     fclose($file);
   }

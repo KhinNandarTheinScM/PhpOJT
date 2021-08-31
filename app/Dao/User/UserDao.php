@@ -117,6 +117,7 @@ class UserDao implements UserDaoInterface
       'type' => $request->usertype = 'Admin' ? '0' : '1',
       'phone' => $request->phone,
       'address' => $request->description,
+      'dob' => $request->dob,
       'create_user_id' => $id,
       'updated_user_id' => $id,
     ]);

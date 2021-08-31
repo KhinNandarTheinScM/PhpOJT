@@ -16,16 +16,18 @@
         <input type="hidden" name="id" class="text-input form-control" placeholder="Title" value="{{$post->id}}">
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row {{ $errors->has('title') ? ' has-error' : '' }}">
       <label for="title" class="col-sm-2 col-form-label">Title</label>
       <div class="col-sm-10">
         <input type="text" name="title" class="text-input form-control" id="title" placeholder="Title" value="{{$post->title}}">
+        <small class="text-danger">{{ $errors->first('title') }}</small>
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row {{ $errors->has('description') ? ' has-error' : '' }}">
       <label for="description" class="col-sm-2 col-form-label">Description</label>
       <div class="col-sm-10">
         <textarea name="description" class="form-control" id="description" placeholder="Description">{{$post->description}}</textarea>
+        <small class="text-danger">{{ $errors->first('description') }}</small>
       </div>
     </div>
     <div class="form-group row">

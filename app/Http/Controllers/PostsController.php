@@ -14,6 +14,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\UsersExport;
 use Illuminate\Support\Facades\Log;
 use Session;
 
@@ -88,6 +89,7 @@ class PostsController extends Controller
     {
         $id = Auth::user()->id;
         $posts = $this->postsInterface->uploadData($request, $id);
+        return redirect()->intended('posts/index');
     }
 
 
@@ -100,9 +102,16 @@ class PostsController extends Controller
     public function confirm(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required|max:255|unique:posts,title',
+            'description' => 'required|max:255',
         ]);
+        // if ($request->fails())
+        // {
+        //     return view('posts#confirm', ['posts' =>$request]);
+        // // $messages = $validator->messages();
+        // // return Redirect::to('/')->with('message', 'Register Failed');
+        // }
+        // if()
         $request->session()->put('title', $request->title);
         $request->session()->put('description', $request->description);
         return view('posts.confirmpost', ['confirmposts' =>  $request]);
@@ -158,6 +167,10 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
+        // $post->validate([
+        //     'title' => 'required|max:255|unique:posts,title',
+        //     'description' => 'required',
+        // ]);
         return view('posts.editpost', ['post' =>  $post]);
     }
 
@@ -170,6 +183,10 @@ class PostsController extends Controller
      */
     public function update(Request $request)
     {
+        $request->validate([
+            'title' => 'required|max:255|unique:posts,title',
+            'description' => 'required',
+        ]);
         return view('posts.confirmupdatepost', ['posts' =>  $request]);
     }
 
@@ -182,15 +199,15 @@ class PostsController extends Controller
      */
     public function confirmupdate(Request $request, Post $posts)
     {
-        Session::forget('title');
-        Session::forget('description');
+        // Session::forget('title');
+        // Session::forget('description');
         $request->validate([
             'title' => 'required',
             'description' => 'required',
         ]);
         $posts = $this->postsInterface->updatePostsList($request, $posts);
-        Session::forget('title');
-        Session::forget('description');
+        // Session::forget('title');
+        // Session::forget('description');
         $title = Session::get('title');
         $description =  Session::get('description');
         // Session::flush();
@@ -216,10 +233,11 @@ class PostsController extends Controller
     }
     public function exportCsv(Request $request)
     {
-        $fileName = 'tasks.csv';
+        $fileName = 'tasks.xlsx';
         $tasks = Post::all();
         $headers = array(
-            "Content-type"        => "text/csv",
+            // "Content-type"        => "text/xlsx",
+            "Content-type" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             "Content-Disposition" => "attachment; filename=$fileName",
             "Pragma"              => "no-cache",
             "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
@@ -245,10 +263,18 @@ class PostsController extends Controller
         $posts = $this->postsInterface->getPostsList();
         return view('posts.index', ['posts' =>  $posts]);
     }
-    public function delete(Post $post,Request $request)
+    public function delete(Post $post, Request $request)
     {
         $posts = $this->postsInterface->deletePostsList($post);
         $returnposts = $this->postsInterface->getPostsList();
         return view('posts.index', ['posts' =>  $returnposts]);
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function exportExcel()
+    {
+        return Excel::download(new UsersExport, 'post.xlsx');
     }
 }

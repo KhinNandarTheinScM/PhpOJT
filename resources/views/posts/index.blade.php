@@ -14,8 +14,11 @@
           <a class="action-link" href="{{ route('posts#create') }}">Add</a>
         @endif
           <a class="action-link" href="{{ route('posts#showupload') }}">Upload</a>
+          <a class="action-link" href="{{ route('posts#export') }}">Export</a>
+          <!-- <button class="btn btn-success">Export</button> -->
           <!-- <span data-href="/tasks" id="export" class="btn btn-success btn-sm" onclick="exportTasks(event.target);">Export</span> -->
-          <a class="action-link"><span data-href="/tasks" id="export" onclick="exportTasks(event.target);">Export</span></a>
+          <!-- <a class="action-link"><span data-href="/tasks" id="export" onclick="exportTasks(event.target);">Export</span></a> -->
+          
         </div>
       </div>
     </form>

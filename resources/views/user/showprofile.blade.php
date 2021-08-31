@@ -11,6 +11,7 @@
         <div class="col-sm-10 profile_img">
         <img  name ="img" src="{{$currentuser->profile}}" />
         <input type="hidden" name="image" class="text-input form-control" placeholder="Title" value="">
+        <!-- <input type="hidden" name="id" class="text-input form-control" placeholder="id" value="{{$currentuser->id}}"> -->
         </div>
       </div>
       <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} row">

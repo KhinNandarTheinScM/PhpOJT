@@ -28,13 +28,15 @@
                         <form id="login-form" action="{{ route('user#checkuser') }}" class="form" method="POST">
                             @csrf
                             <h3 class="text-center text-info">Login</h3>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email" class="text-info">Email:</label><br>
-                                <input type="text" name="email" id="email" class="form-control">
+                                <input type="text" name="email" id="email" class="form-control" value="{{old('email')}}">
+                                <small class="text-danger">{{ $errors->first('email') }}</small>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password" class="text-info">Password:</label><br>
-                                <input type="password" name="password" id="password" class="form-control">
+                                <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}">
+                                <small class="text-danger">{{ $errors->first('password') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>

@@ -76,7 +76,7 @@ class UserController extends Controller
   {
     $request->validate([
       'name' => 'required',
-      'email' => 'required|email',
+      'email' => 'required|unique:users,email',
       'password'         => 'required|min:10|regex:/[A-Z]/ |regex:/[0-9]/',
       'confirmpassword' => 'required|same:password'
     ]);
@@ -100,6 +100,13 @@ class UserController extends Controller
   }
   public function profileconfirm(Request $request)
   {
+    $request->validate([
+      'name' => 'required',
+      'email' => 'required|email|unique:users,email',
+      'usertype'         => 'required',
+      'image' => 'required'
+    ]);
+    // $request->session()->put('id', $request->id);
     $request->session()->put('name', $request->name);
     $request->session()->put('email', $request->email);
     $request->session()->put('type', $request->usertype);
@@ -134,6 +141,8 @@ class UserController extends Controller
     $request->session()->forget('phone');
     $request->session()->forget('date');
     $request->session()->forget('address');
+    $request->session()->forget('password');
+    $request->session()->forget('confirmpassword');
     $request->session()->forget('path');
     $user = $this->userInterface->updateUserProfile($request, $user);
     return redirect()->route('user#index');
@@ -170,6 +179,15 @@ class UserController extends Controller
    */
   public function store(Request $request)
   {
+    // $name = Session::get('name');
+    // $email =  Session::get('email');
+    // $password = Session::get('password');
+    // $confirmpassword = Session::get('confirmpassword');
+    // $usertype =  Session::get('type');
+    // $phone = Session::get('phone');
+    // $date =  Session::get('date');
+    // $address =  Session::get('address');
+    // $path =  Session::get('path');
     $request->session()->forget('name');
     $request->session()->forget('email');
     $request->session()->forget('type');
@@ -226,8 +244,10 @@ class UserController extends Controller
       'newpassword'         => 'required|min:10|regex:/[A-Z]/ |regex:/[0-9]/',
       'confirmpassword' => 'required|same:newpassword'
     ]);
-    $request->session()->put('password', $request->newpassword);
-    $request->session()->put('confirmpassword', $request->newpassword);
+    // $request->session()->put('password', $request->newpassword);
+    // $request->session()->put('confirmpassword', $request->newpassword);
+    $request->session()->forget('password');
+    $request->session()->forget('confirmpassword');
     $user = $this->userInterface->changePasswordUpdate($request, $user);
     $users = $this->userInterface->getUserList();
     return view('user.index', ['users' => $users]);

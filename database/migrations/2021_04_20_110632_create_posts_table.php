@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('title')->unique();
             $table->string('description');
             $table->integer('status');
-            $table->integer('create_user_id');
+            $table->integer('create_user_id')->default('1');
             $table->foreign('create_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('updated_user_id');
             $table->foreign('updated_user_id')->references('id')->on('users')->onDelete('cascade');
